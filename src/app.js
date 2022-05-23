@@ -8,12 +8,14 @@ import pkg from "../package.json";
 import productRoutes from "./routes/products.routes";
 import usersRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
+import salasRoutes from "./routes/sala.routes";
+import reservasRoutes from "./routes/reserva.routes";
 
 import { createRoles, createAdmin} from "./libs/initialSetup";
 
 const app = express();
-createRoles();
-createAdmin();
+//createRoles();
+//createAdmin();
 
 // Settings
 app.set("pkg", pkg);
@@ -45,5 +47,7 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/sala", salasRoutes);
+app.use("/api/reserva", reservasRoutes);
 
 export default app;

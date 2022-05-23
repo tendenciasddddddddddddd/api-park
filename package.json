@@ -4,10 +4,10 @@
   "description": "A Company REST API with authentication and authorization",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node",
     "build": "babel src --out-dir build",
-    "start": "node build/index.js",
-    "test": "jest"
+    "babel-node": "babel-node --presets=@babel/preset-env",
+    "dev": "nodemon --exec npm run babel-node src/index.js",
+    "start": "node build/index.js"
   },
   "repository": {
     "type": "git",
