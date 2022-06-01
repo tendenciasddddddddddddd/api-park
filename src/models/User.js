@@ -5,13 +5,29 @@ const productSchema = new Schema(
   {
     username: {
       type: String,
-      unique: true,
+      required: true,
+    },
+    fistname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    fullname: {
+      type: String,
+      required: true,
     },
     email: {
       type: String,
       unique: true,
     },
     password: {
+      type: String,
+      required: true,
+    },
+    photo : {
       type: String,
       required: true,
     },

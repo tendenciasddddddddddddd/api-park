@@ -14,10 +14,12 @@ router.use((req, res, next) => {
 
 router.post(
   "/signup",
-  [verifySignup.checkDuplicateUsernameOrEmail, verifySignup.checkRolesExisted],
+  [verifySignup.checkDuplicateUsernameOrEmail],
   authCtrl.signUp
 );
 
 router.post("/signin", authCtrl.signin);
+
+router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
 
 export default router;

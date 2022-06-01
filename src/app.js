@@ -8,8 +8,6 @@ import pkg from "../package.json";
 import productRoutes from "./routes/products.routes";
 import usersRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
-import salasRoutes from "./routes/sala.routes";
-import reservasRoutes from "./routes/reserva.routes";
 
 import { createRoles, createAdmin} from "./libs/initialSetup";
 
@@ -24,7 +22,7 @@ app.set("json spaces", 4);
 
 // Middlewares
 const corsOptions = {
-  // origin: "http://localhost:3000",
+   origin: "*",
 };
 app.use(cors(corsOptions));
 app.use(helmet());
@@ -35,7 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 // Welcome Routes
 app.get("/", (req, res) => {
   res.json({
-    message: "Welcome to my Products API",
+    message: "Welcome to my Park API",
     name: app.get("pkg").name,
     version: app.get("pkg").version,
     description: app.get("pkg").description,
@@ -47,7 +45,5 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/sala", salasRoutes);
-app.use("/api/reserva", reservasRoutes);
 
 export default app;

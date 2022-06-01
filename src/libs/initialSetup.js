@@ -33,6 +33,10 @@ export const createAdmin = async () => {
     // create a new admin user
     await User.create({
       username: "admin",
+      fistname: 'Elizabeth',
+      lastname: "Cuesta",
+      fullname: "Elizabeth Cuesta",
+      photo: 'https://res.cloudinary.com/stebann/image/upload/v1634918496/default-100_namn33.webp',
       email: "admin@localhost",
       password: await bcrypt.hash("123456", 10),
       roles: roles.map((role) => role._id),

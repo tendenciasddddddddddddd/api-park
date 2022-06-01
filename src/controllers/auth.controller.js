@@ -7,11 +7,15 @@ import config from "../config";
 export const signUp = async (req, res) => {
   try {
     // Getting the Request Body
-    const { username, email, password, roles } = req.body;
+    const { username, email, password, roles, fistname, lastname, fullname, photo } = req.body;
     // Creating a new User Object
     const newUser = new User({
       username,
       email,
+      fistname,
+      lastname,
+      fullname,
+      photo,
       password: await User.encryptPassword(password),
     });
 
@@ -31,6 +35,7 @@ export const signUp = async (req, res) => {
     const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
       expiresIn: 86400, // 24 hours
     });
+    
 
     return res.status(200).json({ token });
   } catch (error) {
@@ -62,9 +67,69 @@ export const signin = async (req, res) => {
     const token = jwt.sign({ id: userFound._id }, config.SECRET, {
       expiresIn: 86400, // 24 hours
     });
-
-    res.json({ token });
+    const isaccesos = {
+      tokens: token,
+      photo: userFound.photo,
+      fullname: userFound.fullname,
+      email: userFound.email,
+  }
+    res.json({ isaccesos });
   } catch (error) {
     console.log(error);
   }
 };
+
+//---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
+export const googleAuthApi = async (req, res) => {
+  try {
+      // EL CUERPO DE CORREO O EL CUERPO DE USERNAME
+      const userFound = await User.findOne({
+          email: req.body.email
+      }).populate(
+          "roles"
+      );
+      //VERIFICAR sI EL USUARIO EXISTE EN BASE DE DATOS
+      if (!userFound) return res.status(400).json({
+          message: "User Not Found 1"
+      });
+     
+      //OPTENERMOS EL ROL
+      var toles = null
+      const roles = await Role.find({
+          _id: {
+              $in: userFound.roles
+          }
+      });
+      for (let i = 0; i < roles.length; i++) {
+          toles = roles[0].name
+      }
+
+      const token = jwt.sign({
+          id: userFound._id,
+          role: toles,
+      }, config.SECRET, {
+          expiresIn: '5d', // 24 hours
+      });
+
+      if(!userFound.modalidad){
+          userFound.modalidad= 'none';
+      }
+
+      //REGISTRO INICIO DE SECCION
+      const isaccesos = {
+        tokens: token,
+        photo: userFound.photo,
+        fullname: userFound.fullname,
+        email: userFound.email,
+      }
+      res.status(200).json({
+          isaccesos
+      });
+
+
+  } catch (error) {
+      console.log(error);
+  }
+};
+
+
